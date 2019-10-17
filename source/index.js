@@ -2,7 +2,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { ConnectedRouter as Router } from 'react-router-redux';
+import { Router } from 'react-router-dom';
 
 // Instruments
 import { store } from './init/store';
@@ -11,6 +11,7 @@ import './theme/init';
 
 // App
 import App from './navigation/App';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 render(
     <Provider store = { store }>

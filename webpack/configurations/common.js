@@ -60,6 +60,9 @@ Your local repository is absent or not connected to remote repository.
             resolve: {
                 extensions: ['.mjs', '.js', '.json', '.css', '.m.css', '.png', '.jpg'],
                 modules:    [source, 'node_modules'],
+                alias:      {
+                    'react-dom': '@hot-loader/react-dom',
+                },
             },
             optimization: {
                 nodeEnv: process.env.NODE_ENV,

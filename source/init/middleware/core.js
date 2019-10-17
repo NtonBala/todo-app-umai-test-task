@@ -5,7 +5,6 @@ import { createBrowserHistory, createHashHistory } from 'history';
 // Middleware
 import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
-import { routerMiddleware as createRouterMiddleware } from 'react-router-redux';
 
 const logger = createLogger({
     duration:  true,
@@ -23,13 +22,11 @@ const devTools = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
 const composeEnhancers = __DEV__ && devTools ? devTools : compose;
 
 const history = __DEV__ ? createBrowserHistory() : createHashHistory();
-const routerMiddleware = createRouterMiddleware(history);
 
 const sagaMiddleware = createSagaMiddleware();
 
 const middleware = [
-    sagaMiddleware,
-    routerMiddleware
+    sagaMiddleware
 ];
 
 if (__DEV__) {
