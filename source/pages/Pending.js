@@ -10,30 +10,30 @@ import { Catcher, Spinner, Feed } from '../components';
 import { book } from '../navigation/book';
 import { mockedTodos } from '../instruments/mockedData';
 
-const Completed = ({ todos }) => {
-    const completedTodos = todos.filter((todo) => {
-        return !todo.removed && todo.completed;
+const Pending = ({ todos }) => {
+    const pendingTodos = todos.filter((todo) => {
+        return !todo.removed && !todo.completed;
     });
 
     return (
         <Catcher>
             <Spinner />
 
-            <Tab.Pane eventKey = { book.completed }>
-                <h2>Completed Todo Items:</h2>
+            <Tab.Pane eventKey = { book.pending }>
+                <h2>Pending Todo Items:</h2>
 
-                <Feed todos = { completedTodos } />
+                <Feed todos = { pendingTodos } />
             </Tab.Pane>
         </Catcher>
     );
 };
 
-Completed.defaultProps = {
+Pending.defaultProps = {
     todos: mockedTodos.toJS(),
 };
 
-Completed.propTypes = {
+Pending.propTypes = {
     todos: array.isRequired,
 };
 
-export default Completed;
+export default Pending;

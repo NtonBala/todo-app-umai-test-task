@@ -11,7 +11,7 @@ import Nav from 'react-bootstrap/Nav';
 import { book } from './book';
 
 // Pages
-import { Home, Completed, Trash, CreateEdit } from '../pages';
+import { Pending, Completed, Trash, CreateEdit } from '../pages';
 
 // Components
 import { NavItem } from '../components';
@@ -26,7 +26,7 @@ const Public = () => {
                     <Col sm = { 3 }>
                         <Nav className = 'flex-column' variant = 'pills'>
 
-                            <NavItem pathId = { book.home }>Home</NavItem>
+                            <NavItem pathId = { book.pending }>Pending</NavItem>
                             <NavItem pathId = { book.completed }>Completed</NavItem>
                             <NavItem pathId = { book.createEdit }>Create/Edit</NavItem>
                             <NavItem pathId = { book.trash }>Trash</NavItem>
@@ -37,12 +37,12 @@ const Public = () => {
                         <Tab.Content>
                             <Switch>
 
-                                <Route exact component = { Home } path = { book.home } />
+                                <Route exact component = { Pending } path = { book.pending } />
                                 <Route exact component = { Completed } path = { book.completed } />
                                 <Route exact component = { Trash } path = { book.trash } />
                                 <Route exact component = { CreateEdit } path = { book.createEdit } />
 
-                                <Redirect to = { book.home } />
+                                <Redirect to = { book.pending } />
 
                             </Switch>
                         </Tab.Content>
