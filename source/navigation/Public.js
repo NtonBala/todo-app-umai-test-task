@@ -21,14 +21,14 @@ const Public = () => {
 
     return (
         <Container>
-            <Tab.Container activeKey = { pathname } id = 'left-tabs'>
+            <Tab.Container activeKey = { pathname }>
                 <Row>
                     <Col sm = { 3 }>
                         <Nav className = 'flex-column' variant = 'pills'>
 
                             <NavItem pathId = { book.pending }>Pending</NavItem>
                             <NavItem pathId = { book.completed }>Completed</NavItem>
-                            <NavItem pathId = { book.createEdit }>Create/Edit</NavItem>
+                            <NavItem pathId = { book.createEdit }>Create</NavItem>
                             <NavItem pathId = { book.trash }>Trash</NavItem>
 
                         </Nav>

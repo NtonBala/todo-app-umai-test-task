@@ -1,13 +1,14 @@
 // Core
 import React from 'react';
 import { string, number, bool } from 'prop-types';
+import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
 // Instruments
 import { formatDate } from '../../instruments';
 
-const Todo = ({ text, dueDate, dateCompleted, completed, removed }) => {
+const Todo = ({ id, text, dueDate, dateCompleted, completed, removed }) => {
     const date = completed ? dateCompleted : dueDate;
 
     return (
@@ -20,11 +21,18 @@ const Todo = ({ text, dueDate, dateCompleted, completed, removed }) => {
                 ) : (
                     <>
                         <Button className = 'float-right' variant = 'danger'>Delete</Button>
-                        <Button className = 'float-right mx-2' variant = 'warning'>Edit</Button>
+                        <Button
+                            as = { Link }
+                            className = 'float-right mx-2'
+                            to = { `/create-edit?id=${id}` }
+                            variant = 'warning'>
+                            Edit
+                        </Button>
                     </>
                 )}
 
             </Card.Body>
+
             <Card.Footer className = 'text-right'>
                 {completed ? 'completed on ' : 'due '}
                 <span className = 'font-italic'>{ formatDate(date) }</span>
