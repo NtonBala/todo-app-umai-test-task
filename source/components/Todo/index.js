@@ -8,27 +8,26 @@ import Button from 'react-bootstrap/Button';
 import { formatDate } from '../../instruments';
 
 const Todo = ({ text, dueDate, dateCompleted, completed, removed }) => {
-    const dateMessage = completed ? 'completed on' : 'due';
-
-    const date = completed ? formatDate(dateCompleted) : formatDate(dueDate);
-
-    const buttonText = removed ? 'Restore' : 'Edit';
+    const date = completed ? dateCompleted : dueDate;
 
     return (
         <Card bg = 'primary' className = 'my-2' text = 'white'>
             <Card.Body>
                 <Card.Text>{ text }</Card.Text>
 
-                {!removed && (
-                    <Button className = 'float-right' variant = 'danger'>Delete</Button>
+                {removed ? (
+                    <Button className = 'float-right' variant = 'success'>Restore</Button>
+                ) : (
+                    <>
+                        <Button className = 'float-right' variant = 'danger'>Delete</Button>
+                        <Button className = 'float-right mx-2' variant = 'warning'>Edit</Button>
+                    </>
                 )}
 
-                <Button className = 'float-right mx-2' variant = { removed ? 'success' : 'warning' }>
-                    { buttonText }
-                </Button>
             </Card.Body>
             <Card.Footer className = 'text-right'>
-                {dateMessage} <span className = 'font-italic'>{ date }</span>
+                {completed ? 'completed on ' : 'due '}
+                <span className = 'font-italic'>{ formatDate(date) }</span>
             </Card.Footer>
         </Card>
     );
