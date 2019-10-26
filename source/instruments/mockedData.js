@@ -1,7 +1,9 @@
 // Core
 import { List, Map } from 'immutable';
-import moment from 'moment';
 import uuidv1 from 'uuid/v1';
+
+// Instruments
+import { getTodayDate } from '../instruments';
 
 export const mockedTodos = List([
     Map({
@@ -9,20 +11,20 @@ export const mockedTodos = List([
         completed: false,
         removed:   false,
         text:      'Todo 1',
-        dueDate:   parseInt(moment().format('X'), 10),
+        dueDate:   getTodayDate(),
     }),
     Map({
         id:            uuidv1(),
         completed:     true,
         removed:       false,
         text:          'Todo 2',
-        dateCompleted: parseInt(moment().format('X'), 10),
+        dateCompleted: getTodayDate(),
     }),
     Map({
         id:        uuidv1(),
         completed: false,
         removed:   true,
         text:      'Todo 3',
-        dueDate:   parseInt(moment().format('X'), 10),
+        dueDate:   getTodayDate(),
     })
 ]);
