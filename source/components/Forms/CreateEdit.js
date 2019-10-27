@@ -10,6 +10,9 @@ import Col from 'react-bootstrap/Col';
 // Instruments
 import { createEdit } from '../../instruments/forms/shapes';
 
+// Components
+import { Datepicker } from './components';
+
 const CreateEditForm = ({ isEditing, isFetching, createTodoAsync, editTodoAsync }) => {
     const _submitCreateEditForm = (values) => {
         console.log('-> values:', values);
@@ -54,6 +57,15 @@ const CreateEditForm = ({ isEditing, isFetching, createTodoAsync, editTodoAsync 
                             } }
                         />
 
+                        <Form.Group
+                            as = { Row }
+                            controlId = 'createEdit.dueDate'>
+                            <Form.Label column sm = { 3 }>Due:</Form.Label>
+                            <Col className = 'pt-1' sm = { 9 }>
+                                <Datepicker name = 'dueDate' />
+                            </Col>
+                        </Form.Group>
+
                         <Field
                             name = 'completed'
                             render = { ({ field }) => {
@@ -75,7 +87,10 @@ const CreateEditForm = ({ isEditing, isFetching, createTodoAsync, editTodoAsync 
                             } }
                         />
 
-                        <Button disabled = { isFetching } type = 'submit'>
+                        <Button
+                            className = 'float-right'
+                            disabled = { isFetching }
+                            type = 'submit'>
                             {buttonMessage}
                         </Button>
                     </Form>

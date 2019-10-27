@@ -8,7 +8,7 @@ export const createEdit = {
     shape: {
         text:          '',
         completed:     false,
-        dueDate:       getTodayDate(),
+        dueDate:       new Date(),
         dateCompleted: getTodayDate(),
     },
     schema: object().shape({
