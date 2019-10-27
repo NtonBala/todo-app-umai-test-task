@@ -1,6 +1,7 @@
 // Core
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { bool, func } from 'prop-types';
+import { useLocation } from 'react-router-dom';
 import { Formik, Field } from 'formik';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -13,12 +14,21 @@ import { createEdit } from '../../instruments/forms/shapes';
 // Components
 import { Datepicker } from './components';
 
-const CreateEditForm = ({ isEditing, isFetching, createTodoAsync, editTodoAsync }) => {
-    const _submitCreateEditForm = (values) => {
-        console.log('-> values:', values);
-        const { text } = values;
+const useLocationChange = (form) => {
+    const location = useLocation();
 
-        console.log('-> todo text:', text);
+    useEffect(() => {
+        form.current.resetForm();
+    }, [location]);
+};
+
+const CreateEditForm = ({ isEditing, isFetching, createTodoAsync, editTodoAsync }) => {
+    const formEl = useRef(null);
+
+    useLocationChange(formEl);
+
+    const _submitCreateEditForm = (values) => {
+        const { text } = values;
 
         if (isEditing) {
             editTodoAsync(text);
@@ -30,6 +40,7 @@ const CreateEditForm = ({ isEditing, isFetching, createTodoAsync, editTodoAsync 
     return (
         <Formik
             initialValues = { createEdit.shape }
+            ref = { formEl }
             render = { (props) => {
                 console.log('-> Formik props:', props);
 
@@ -78,6 +89,7 @@ const CreateEditForm = ({ isEditing, isFetching, createTodoAsync, editTodoAsync 
                                             <Form.Check
                                                 { ...field }
                                                 custom
+                                                checked = { field.value }
                                                 label = ''
                                                 type = 'checkbox'
                                             />
