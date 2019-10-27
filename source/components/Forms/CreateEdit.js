@@ -1,7 +1,6 @@
 // Core
 import React, { useEffect, useRef } from 'react';
 import { bool, func } from 'prop-types';
-import { useLocation } from 'react-router-dom';
 import { Formik, Field } from 'formik';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -14,20 +13,19 @@ import { createEdit } from '../../instruments/forms/shapes';
 // Components
 import { Datepicker } from './components';
 
-const useLocationChange = (form) => {
-    const location = useLocation();
-
+const useLocationChange = (form, hasLocationChanged) => {
     useEffect(() => {
         form.current.resetForm();
-    }, [location]);
+    }, [hasLocationChanged]);
 };
 
 const CreateEditForm = ({ isEditing, isFetching, createTodoAsync, editTodoAsync }) => {
     const formEl = useRef(null);
 
-    useLocationChange(formEl);
+    useLocationChange(formEl, isEditing);
 
     const _submitCreateEditForm = (values) => {
+        console.log('-> SUBMIT FORM');
         const { text } = values;
 
         if (isEditing) {
@@ -41,17 +39,13 @@ const CreateEditForm = ({ isEditing, isFetching, createTodoAsync, editTodoAsync 
         <Formik
             initialValues = { createEdit.shape }
             ref = { formEl }
-            render = { (props) => {
-                console.log('-> Formik props:', props);
-
-                const { isValid, touched, errors } = props;
-
+            render = { ({ errors, handleSubmit }) => {
                 const buttonMessage = isFetching
                     ? 'Submitting...'
                     : `${isEditing ? 'Edit Todo' : 'Create Todo'}`;
 
                 return (
-                    <Form onSubmit = { props.handleSubmit }>
+                    <Form onSubmit = { handleSubmit }>
                         <Field
                             name = 'text'
                             render = { ({ field }) => {
@@ -61,7 +55,15 @@ const CreateEditForm = ({ isEditing, isFetching, createTodoAsync, editTodoAsync 
                                         controlId = 'createEdit.text'>
                                         <Form.Label column sm = { 3 }>Task:</Form.Label>
                                         <Col sm = { 9 }>
-                                            <Form.Control as = 'textarea' { ...field } />
+                                            <Form.Control
+                                                as = 'textarea'
+                                                isInvalid = { Boolean(errors.text) }
+                                                { ...field }
+                                            />
+
+                                            <Form.Control.Feedback type = 'invalid'>
+                                                { errors.text }
+                                            </Form.Control.Feedback>
                                         </Col>
                                     </Form.Group>
                                 );
@@ -117,7 +119,6 @@ const CreateEditForm = ({ isEditing, isFetching, createTodoAsync, editTodoAsync 
 CreateEditForm.defaultProps = {
     createTodoAsync: () => {},
     editTodoAsync:   () => {},
-    isEditing:       false,
     isFetching:      false,
 };
 

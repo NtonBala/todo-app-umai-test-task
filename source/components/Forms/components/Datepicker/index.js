@@ -10,8 +10,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './customStyles';
 
 const Datepicker = ({ name, formik: { setFieldValue, values: { dueDate }}}) => {
-    const handleChange = (date) => {
-        setFieldValue(name, date);
+    const dueDateObj = new Date(dueDate * 1000);
+
+    const handleChange = (dateObj) => {
+        setFieldValue(name, dateObj.getTime() / 1000);
     };
 
     return (
@@ -19,7 +21,7 @@ const Datepicker = ({ name, formik: { setFieldValue, values: { dueDate }}}) => {
             showTimeSelect
             customInput = { <Form.Control /> }
             dateFormat = 'MMMM d, yyyy h:mm aa'
-            selected = { dueDate }
+            selected = { dueDateObj }
             timeCaption = 'Time'
             timeFormat = 'HH:mm'
             timeIntervals = { 15 }

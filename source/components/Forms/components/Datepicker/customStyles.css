@@ -17,14 +17,6 @@
     border-bottom-color: #cce5ff !important;
 }
 
-.react-datepicker__navigation--previous {
-    border-right-color: #80bdff !important;
-}
-
-.react-datepicker__navigation--next {
-    border-left-color:  #80bdff !important;
-}
-
 .react-datepicker__navigation--next--with-time:not(.react-datepicker__navigation--next--with-today-button) {
     right: 95px !important;
 }
@@ -50,4 +42,12 @@
 
 .react-datepicker__day--selected {
     background: #007bff !important;
+}
+
+.react-datepicker__navigation--previous {
+    border-right-color: #80bdff !important;
+}
+
+.react-datepicker__navigation--next {
+    border-left-color:  #80bdff !important;
 }

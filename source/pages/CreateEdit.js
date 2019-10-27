@@ -22,7 +22,7 @@ const CreateEdit = () => {
             <Tab.Pane eventKey = { book.createEdit }>
                 <h2>{ headingText }</h2>
 
-                <CreateEditForm />
+                <CreateEditForm isEditing = { isEditing } />
             </Tab.Pane>
         </Catcher>
     );
