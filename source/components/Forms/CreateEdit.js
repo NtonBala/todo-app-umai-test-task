@@ -2,6 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import { bool, func } from 'prop-types';
 import { Formik, Field } from 'formik';
+import { connect } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
@@ -11,7 +12,11 @@ import Col from 'react-bootstrap/Col';
 import { createEdit } from '../../instruments/forms/shapes';
 
 // Components
-import { Datepicker } from './components';
+import { DatepickerField } from './components';
+import { CompletedField } from './components';
+
+// Actions
+import { todosActions } from '../../bus/todos/actions';
 
 const useLocationChange = (form, hasLocationChanged) => {
     useEffect(() => {
@@ -25,13 +30,13 @@ const CreateEditForm = ({ isEditing, isFetching, createTodoAsync, editTodoAsync 
     useLocationChange(formEl, isEditing);
 
     const _submitCreateEditForm = (values) => {
-        console.log('-> SUBMIT FORM');
+        console.log('-> values', values);
         const { text } = values;
 
         if (isEditing) {
             editTodoAsync(text);
         } else {
-            createTodoAsync(text);
+            //createTodoAsync(text);
         }
     };
 
@@ -39,13 +44,14 @@ const CreateEditForm = ({ isEditing, isFetching, createTodoAsync, editTodoAsync 
         <Formik
             initialValues = { createEdit.shape }
             ref = { formEl }
-            render = { ({ errors, handleSubmit }) => {
+            render = { (props) => {
+                console.log('-> formik props:', props);
                 const buttonMessage = isFetching
                     ? 'Submitting...'
                     : `${isEditing ? 'Edit Todo' : 'Create Todo'}`;
 
                 return (
-                    <Form onSubmit = { handleSubmit }>
+                    <Form onSubmit = { props.handleSubmit }>
                         <Field
                             name = 'text'
                             render = { ({ field }) => {
@@ -57,12 +63,12 @@ const CreateEditForm = ({ isEditing, isFetching, createTodoAsync, editTodoAsync 
                                         <Col sm = { 9 }>
                                             <Form.Control
                                                 as = 'textarea'
-                                                isInvalid = { Boolean(errors.text) }
+                                                isInvalid = { Boolean(props.errors.text) }
                                                 { ...field }
                                             />
 
                                             <Form.Control.Feedback type = 'invalid'>
-                                                { errors.text }
+                                                { props.errors.text }
                                             </Form.Control.Feedback>
                                         </Col>
                                     </Form.Group>
@@ -70,36 +76,9 @@ const CreateEditForm = ({ isEditing, isFetching, createTodoAsync, editTodoAsync 
                             } }
                         />
 
-                        <Form.Group
-                            as = { Row }
-                            controlId = 'createEdit.dueDate'>
-                            <Form.Label column sm = { 3 }>Due:</Form.Label>
-                            <Col className = 'pt-1' sm = { 9 }>
-                                <Datepicker name = 'dueDate' />
-                            </Col>
-                        </Form.Group>
+                        <DatepickerField name = 'dueDate' />
 
-                        <Field
-                            name = 'completed'
-                            render = { ({ field }) => {
-                                return (
-                                    <Form.Group
-                                        as = { Row }
-                                        controlId = 'createEdit.completed'>
-                                        <Form.Label column sm = { 3 }>Completed:</Form.Label>
-                                        <Col className = 'pt-1' sm = { 9 }>
-                                            <Form.Check
-                                                { ...field }
-                                                custom
-                                                checked = { field.value }
-                                                label = ''
-                                                type = 'checkbox'
-                                            />
-                                        </Col>
-                                    </Form.Group>
-                                );
-                            } }
-                        />
+                        <CompletedField name = 'completed' />
 
                         <Button
                             className = 'float-right'
@@ -129,4 +108,11 @@ CreateEditForm.propTypes = {
     isFetching:      bool.isRequired,
 };
 
-export default CreateEditForm;
+const mapDispatch = {
+    createTodoAsync: todosActions.createTodoAsync,
+};
+
+export default connect(
+    null,
+    mapDispatch
+)(CreateEditForm);

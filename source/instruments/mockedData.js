@@ -3,7 +3,7 @@ import { List, Map } from 'immutable';
 import uuidv1 from 'uuid/v1';
 
 // Instruments
-import { getTodayDate } from '../instruments';
+import { unixDueDate, unixDateCompleted } from '../instruments';
 
 export const mockedTodos = List([
     Map({
@@ -11,20 +11,20 @@ export const mockedTodos = List([
         completed: false,
         removed:   false,
         text:      'Todo 1',
-        dueDate:   getTodayDate(),
+        dueDate:   unixDueDate(),
     }),
     Map({
         id:            uuidv1(),
         completed:     true,
         removed:       false,
         text:          'Todo 2',
-        dateCompleted: getTodayDate(),
+        dateCompleted: unixDateCompleted(),
     }),
     Map({
         id:        uuidv1(),
         completed: false,
         removed:   true,
         text:      'Todo 3',
-        dueDate:   getTodayDate(),
+        dueDate:   unixDueDate(),
     })
 ]);

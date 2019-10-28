@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
 // Instruments
-import { formatDate } from '../../instruments';
+import { formatUnixDate } from '../../instruments';
 
 const Todo = ({ id, text, dueDate, dateCompleted, completed, removed }) => {
     const date = completed ? dateCompleted : dueDate;
@@ -35,7 +35,7 @@ const Todo = ({ id, text, dueDate, dateCompleted, completed, removed }) => {
 
             <Card.Footer className = 'text-right'>
                 {completed ? 'completed on ' : 'due '}
-                <span className = 'font-italic'>{ formatDate(date) }</span>
+                <span className = 'font-italic'>{ formatUnixDate(date) }</span>
             </Card.Footer>
         </Card>
     );

@@ -2,21 +2,19 @@
 import { object, string, boolean, number } from 'yup';
 
 // Instruments
-import { getTodayDate, getUnixDueDate } from '../../instruments';
+import { unixDueDate } from '../../instruments';
 
 export const createEdit = {
     shape: {
-        text:          '',
-        completed:     false,
-        dueDate:       getUnixDueDate(),
-        dateCompleted: getTodayDate(),
+        text:      '',
+        completed: false,
+        dueDate:   unixDueDate(),
     },
     schema: object().shape({
         text: string()
             .min(3)
             .required(),
-        completed:     boolean(),
-        dueDate:       number(),
-        dateCompleted: number(),
+        completed: boolean(),
+        dueDate:   number(),
     }),
 };

@@ -1,5 +1,7 @@
-import Datepicker from './Datepicker';
+import DatepickerField from './DatepickerField';
+import CompletedField from './CompletedField';
 
 export {
-    Datepicker
+    DatepickerField,
+    CompletedField
 };
