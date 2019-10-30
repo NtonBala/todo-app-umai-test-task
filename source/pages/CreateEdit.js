@@ -1,16 +1,31 @@
 // Core
-import React, { Component } from 'react';
+import React from 'react';
+import Tab from 'react-bootstrap/Tab';
 
 // Components
-import { Catcher, Spinner } from '../components';
+import { Catcher, Spinner, CreateEditForm } from '../components';
 
-export default class CreateEdit extends Component {
-    render () {
-        return (
-            <Catcher>
-                <Spinner />
-                <h1>Create/edit</h1>
-            </Catcher>
-        );
-    }
-}
+// Instruments
+import { book } from '../navigation/book';
+import { useQuery } from '../instruments';
+
+const CreateEdit = () => {
+    const id = useQuery().get('id');
+    const isEditing = Boolean(id);
+
+    const headingText = isEditing ? `Edit Todo:` : 'Create Todo:';
+
+    return (
+        <Catcher>
+            <Spinner />
+
+            <Tab.Pane eventKey = { book.createEdit }>
+                <h2>{ headingText }</h2>
+
+                <CreateEditForm isEditing = { isEditing } />
+            </Tab.Pane>
+        </Catcher>
+    );
+};
+
+export default CreateEdit;

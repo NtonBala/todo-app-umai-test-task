@@ -1,13 +1,30 @@
 // Core
 import { List, Map } from 'immutable';
-import moment from 'moment';
+import uuidv1 from 'uuid/v1';
 
-export const mockedProfile = List([
+// Instruments
+import { unixDueDate, unixDateCompleted } from '../instruments';
+
+export const mockedTodos = List([
     Map({
-        id:        'TODO_ID',
+        id:        uuidv1(),
         completed: false,
         removed:   false,
-        test:      'Todo text',
-        dueDate:   moment().format('X'),
+        text:      'Todo 1',
+        dueDate:   unixDueDate(),
+    }),
+    Map({
+        id:            uuidv1(),
+        completed:     true,
+        removed:       false,
+        text:          'Todo 2',
+        dateCompleted: unixDateCompleted(),
+    }),
+    Map({
+        id:        uuidv1(),
+        completed: false,
+        removed:   true,
+        text:      'Todo 3',
+        dueDate:   unixDueDate(),
     })
 ]);

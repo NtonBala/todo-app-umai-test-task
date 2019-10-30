@@ -1,6 +1,6 @@
-import Home from './Home';
+import Pending from './Pending';
 import Completed from './Completed';
 import Trash from './Trash';
 import CreateEdit from './CreateEdit';
 
-export { Home, Completed, Trash, CreateEdit };
+export { Pending, Completed, Trash, CreateEdit };

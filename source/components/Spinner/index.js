@@ -1,21 +1,25 @@
 // Core
-import React, { Component } from 'react';
+import React from 'react';
+import { bool } from 'prop-types';
 import { connect } from 'react-redux';
 
 // Instruments
 import Styles from './styles.m.css';
 
-const mapStateToProps = (state) => {
+const Spinner = ({ isFetching }) => {
+    return isFetching ? <div className = { Styles.spinner } /> : null;
+};
+
+Spinner.propTypes = {
+    isFetching: bool.isRequired,
+};
+
+const mapState = (state) => {
     return {
         isFetching: state.ui.get('isFetching'),
     };
 };
 
-@connect(mapStateToProps)
-export default class Spinner extends Component {
-    render () {
-        const { isFetching } = this.props;
-
-        return isFetching ? <div className = { Styles.spinner } /> : null;
-    }
-}
+export default connect(
+    mapState
+)(Spinner);

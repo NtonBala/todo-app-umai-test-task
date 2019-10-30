@@ -1,5 +1,5 @@
 export const book = Object.freeze({
-    home:       '/home',
+    pending:    '/pending',
     completed:  '/completed',
     trash:      '/trash',
     createEdit: '/create-edit',

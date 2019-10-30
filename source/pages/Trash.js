@@ -1,16 +1,39 @@
 // Core
-import React, { Component } from 'react';
+import React from 'react';
+import { array } from 'prop-types';
+import Tab from 'react-bootstrap/Tab';
 
 // Components
-import { Catcher, Spinner } from '../components';
+import { Catcher, Spinner, Feed } from '../components';
 
-export default class Trash extends Component {
-    render () {
-        return (
-            <Catcher>
-                <Spinner />
-                <h1>Trash</h1>
-            </Catcher>
-        );
-    }
-}
+// Instruments
+import { book } from '../navigation/book';
+import { mockedTodos } from '../instruments/mockedData';
+
+const Trash = ({ todos }) => {
+    const removedTodos = todos.filter((todo) => {
+        return todo.removed;
+    });
+
+    return (
+        <Catcher>
+            <Spinner />
+
+            <Tab.Pane eventKey = { book.trash }>
+                <h2>Trash:</h2>
+
+                <Feed todos = { removedTodos } />
+            </Tab.Pane>
+        </Catcher>
+    );
+};
+
+Trash.defaultProps = {
+    todos: mockedTodos.toJS(),
+};
+
+Trash.propTypes = {
+    todos: array.isRequired,
+};
+
+export default Trash;
