@@ -1,6 +1,9 @@
 // Core
 import React from 'react';
+import { array, object } from 'prop-types';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Container from 'react-bootstrap/Container';
 import Tab from 'react-bootstrap/Tab';
 import Row from 'react-bootstrap/Row';
@@ -11,12 +14,15 @@ import Nav from 'react-bootstrap/Nav';
 import { book } from './book';
 
 // Pages
-import { Pending, Completed, Trash, CreateEdit } from '../pages';
+import { Trash, CreateEdit, TodosFeed } from '../pages';
 
 // Components
 import { NavItem } from '../components';
 
-const Public = () => {
+// Actions
+import { todosActions } from '../bus/todos/actions';
+
+const Public = ({ todos, actions }) => {
     const { pathname } = useLocation();
 
     return (
@@ -29,7 +35,7 @@ const Public = () => {
                             <NavItem pathId = { book.pending }>Pending</NavItem>
                             <NavItem pathId = { book.completed }>Completed</NavItem>
                             <NavItem pathId = { book.createEdit }>Create</NavItem>
-                            <NavItem pathId = { book.trash }>Trash</NavItem>
+                            <NavItem pathId = { book.removed }>Trash</NavItem>
 
                         </Nav>
                     </Col>
@@ -37,9 +43,52 @@ const Public = () => {
                         <Tab.Content>
                             <Switch>
 
-                                <Route exact component = { Pending } path = { book.pending } />
-                                <Route exact component = { Completed } path = { book.completed } />
-                                <Route exact component = { Trash } path = { book.trash } />
+                                <Route
+                                    exact
+                                    path = { book.pending }
+                                    render = { () => {
+                                        return (
+                                            <TodosFeed
+                                                actions = { { fetchTodosAsync: actions.fetchTodosAsync } }
+                                                filter = 'pending'
+                                                pathname = { pathname }
+                                                title = 'Pending Todos:'
+                                                todos = { todos }
+                                            />
+                                        );
+                                    } }
+                                />
+
+                                <Route
+                                    exact
+                                    path = { book.completed }
+                                    render = { () => {
+                                        return (
+                                            <TodosFeed
+                                                actions = { { fetchTodosAsync: actions.fetchTodosAsync } }
+                                                filter = 'completed'
+                                                title = 'Completed Todos:'
+                                                todos = { todos }
+                                            />
+                                        );
+                                    } }
+                                />
+
+                                <Route
+                                    exact
+                                    path = { book.removed }
+                                    render = { () => {
+                                        return (
+                                            <TodosFeed
+                                                actions = { { fetchTodosAsync: actions.fetchTodosAsync } }
+                                                filter = 'removed'
+                                                title = 'Trash:'
+                                                todos = { todos }
+                                            />
+                                        );
+                                    } }
+                                />
+
                                 <Route exact component = { CreateEdit } path = { book.createEdit } />
 
                                 <Redirect to = { book.pending } />
@@ -53,4 +102,26 @@ const Public = () => {
     );
 };
 
-export default Public;
+Public.propTypes = {
+    actions: object.isRequired,
+    todos:   array.isRequired,
+};
+
+const mapState = (state) => {
+    return {
+        todos: state.todos.toJS(),
+    };
+};
+
+const mapDispatch = (dispatch) => {
+    return {
+        actions: bindActionCreators({
+            fetchTodosAsync: todosActions.fetchTodosAsync,
+        }, dispatch),
+    };
+};
+
+export default connect(
+    mapState,
+    mapDispatch
+)(Public);

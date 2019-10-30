@@ -1,6 +1,4 @@
-import Pending from './Pending';
-import Completed from './Completed';
-import Trash from './Trash';
 import CreateEdit from './CreateEdit';
+import TodosFeed from './TodosFeed';
 
-export { Pending, Completed, Trash, CreateEdit };
+export { CreateEdit, TodosFeed };
