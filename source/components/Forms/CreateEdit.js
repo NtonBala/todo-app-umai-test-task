@@ -1,8 +1,9 @@
 // Core
 import React, { useEffect, useRef } from 'react';
-import { bool, func } from 'prop-types';
+import { bool, func, shape } from 'prop-types';
 import { Formik, Field } from 'formik';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
@@ -11,7 +12,7 @@ import Col from 'react-bootstrap/Col';
 // Instruments
 import { createEdit } from '../../instruments/forms/shapes';
 
-// Components
+// Fields
 import { DatepickerField } from './components';
 import { CompletedField } from './components';
 
@@ -24,19 +25,18 @@ const useLocationChange = (form, hasLocationChanged) => {
     }, [hasLocationChanged]);
 };
 
-const CreateEditForm = ({ isEditing, isFetching, createTodoAsync, editTodoAsync }) => {
+const CreateEditForm = ({ actions, isEditing, isFetching }) => {
     const formEl = useRef(null);
 
     useLocationChange(formEl, isEditing);
 
     const _submitCreateEditForm = (values) => {
-        console.log('-> values', values);
         const { text } = values;
 
         if (isEditing) {
-            editTodoAsync(text);
+            actions.editTodoAsync(text);
         } else {
-            //createTodoAsync(text);
+            actions.createTodoAsync({ ...values });
         }
     };
 
@@ -95,24 +95,30 @@ const CreateEditForm = ({ isEditing, isFetching, createTodoAsync, editTodoAsync 
     );
 };
 
-CreateEditForm.defaultProps = {
-    createTodoAsync: () => {},
-    editTodoAsync:   () => {},
-    isFetching:      false,
-};
-
 CreateEditForm.propTypes = {
-    createTodoAsync: func.isRequired,
-    editTodoAsync:   func.isRequired,
-    isEditing:       bool.isRequired,
-    isFetching:      bool.isRequired,
+    actions: shape({
+        createTodoAsync: func.isRequired,
+        editTodoAsync:   func.isRequired,
+    }).isRequired,
+    isEditing:  bool.isRequired,
+    isFetching: bool.isRequired,
 };
 
-const mapDispatch = {
-    createTodoAsync: todosActions.createTodoAsync,
+const mapState = (state) => {
+    return {
+        isFetching: state.ui.get('isFetching'),
+    };
+};
+
+const mapDispatch = (dispatch) => {
+    return {
+        actions: bindActionCreators({
+            createTodoAsync: todosActions.createTodoAsync,
+        }, dispatch),
+    };
 };
 
 export default connect(
-    null,
+    mapState,
     mapDispatch
 )(CreateEditForm);

@@ -1,6 +1,8 @@
 // Core
-import React from 'react';
-import { array } from 'prop-types';
+import React, { useEffect } from 'react';
+import { array, object } from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Tab from 'react-bootstrap/Tab';
 
 // Components
@@ -8,12 +10,14 @@ import { Catcher, Spinner, Feed } from '../components';
 
 // Instruments
 import { book } from '../navigation/book';
-import { mockedTodos } from '../instruments/mockedData';
 
-const Pending = ({ todos }) => {
-    const pendingTodos = todos.filter((todo) => {
-        return !todo.removed && !todo.completed;
-    });
+// Actions
+import { todosActions } from '../bus/todos/actions';
+
+const Pending = ({ todos, actions }) => {
+    useEffect(() => {
+        actions.fetchTodosAsync('pending');
+    }, []);
 
     return (
         <Catcher>
@@ -22,18 +26,32 @@ const Pending = ({ todos }) => {
             <Tab.Pane eventKey = { book.pending }>
                 <h2>Pending Todo Items:</h2>
 
-                <Feed todos = { pendingTodos } />
+                <Feed todos = { todos } />
             </Tab.Pane>
         </Catcher>
     );
 };
 
-Pending.defaultProps = {
-    todos: mockedTodos.toJS(),
-};
-
 Pending.propTypes = {
-    todos: array.isRequired,
+    actions: object.isRequired,
+    todos:   array.isRequired,
 };
 
-export default Pending;
+const mapState = (state) => {
+    return {
+        todos: state.todos.toJS(),
+    };
+};
+
+const mapDispatch = (dispatch) => {
+    return {
+        actions: bindActionCreators({
+            fetchTodosAsync: todosActions.fetchTodosAsync,
+        }, dispatch),
+    };
+};
+
+export default connect(
+    mapState,
+    mapDispatch
+)(Pending);
