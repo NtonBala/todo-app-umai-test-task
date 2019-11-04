@@ -1,8 +1,10 @@
 export const types = {
     // Sync
     FILL_TODOS:  'FILL_TODOS',
+    REMOVE_TODO: 'REMOVE_TODO',
 
     // Async
     FETCH_TODOS_ASYNC: 'FETCH_TODOS_ASYNC',
     CREATE_TODO_ASYNC: 'CREATE_TODO_ASYNC',
+    REMOVE_TODO_ASYNC: 'REMOVE_TODO_ASYNC',
 };

@@ -11,6 +11,9 @@ export const todosReducer = (state = initialState, { type, payload }) => {
         case types.FILL_TODOS:
             return fromJS(payload);
 
+        case types.REMOVE_TODO:
+            return state.filter((todo) => todo.get('id') !== payload);
+
         default:
             return state;
     }

@@ -1,6 +1,8 @@
 // Core
 import React from 'react';
-import { string, number, bool } from 'prop-types';
+import { string, number, bool, object } from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -8,8 +10,23 @@ import Button from 'react-bootstrap/Button';
 // Instruments
 import { formatUnixDate } from '../../instruments';
 
-const Todo = ({ id, text, dueDate, dateCompleted, completed, removed }) => {
+// Actions
+import { todosActions } from '../../bus/todos/actions';
+
+const Todo = ({
+    id,
+    text,
+    dueDate,
+    dateCompleted,
+    completed,
+    removed,
+    actions,
+}) => {
     const date = completed ? dateCompleted : dueDate;
+
+    const removeTodo = () => {
+        actions.removeTodoAsync(id);
+    };
 
     return (
         <Card bg = 'primary' className = 'my-2' text = 'white'>
@@ -20,7 +37,12 @@ const Todo = ({ id, text, dueDate, dateCompleted, completed, removed }) => {
                     <Button className = 'float-right' variant = 'success'>Restore</Button>
                 ) : (
                     <>
-                        <Button className = 'float-right' variant = 'danger'>Delete</Button>
+                        <Button
+                            className = 'float-right'
+                            variant = 'danger'
+                            onClick = { removeTodo }>
+                            Delete
+                        </Button>
                         <Button
                             as = { Link }
                             className = 'float-right mx-2'
@@ -42,6 +64,7 @@ const Todo = ({ id, text, dueDate, dateCompleted, completed, removed }) => {
 };
 
 Todo.propTypes = {
+    actions:       object.isRequired,
     completed:     bool.isRequired,
     id:            string.isRequired,
     text:          string.isRequired,
@@ -50,4 +73,15 @@ Todo.propTypes = {
     removed:       bool,
 };
 
-export default Todo;
+const mapDispatch = (dispatch) => {
+    return {
+        actions: bindActionCreators({
+            removeTodoAsync: todosActions.removeTodoAsync,
+        }, dispatch),
+    };
+};
+
+export default connect(
+    null,
+    mapDispatch
+)(Todo);

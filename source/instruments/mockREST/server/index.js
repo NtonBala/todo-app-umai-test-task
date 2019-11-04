@@ -1,10 +1,13 @@
-// Instruments
+// Routes
 import {
-    mockError,
     getFilteredTodos,
     postTodo,
-    getTodo
+    getTodo,
+    deleteTodo
 } from './routes';
+
+// Instruments
+import { mockError } from './helpers';
 
 const mockServer = (route, options) => {
     switch (route) {
@@ -16,6 +19,9 @@ const mockServer = (route, options) => {
 
         case '/get/todo':
             return getTodo(options);
+
+        case '/delete/todo':
+            return deleteTodo(options);
 
         default:
             return mockError();

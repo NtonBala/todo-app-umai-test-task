@@ -14,7 +14,7 @@ import Nav from 'react-bootstrap/Nav';
 import { book } from './book';
 
 // Pages
-import { Trash, CreateEdit, TodosFeed } from '../pages';
+import { CreateEdit, TodosFeed } from '../pages';
 
 // Components
 import { NavItem } from '../components';
@@ -49,7 +49,9 @@ const Public = ({ todos, actions }) => {
                                     render = { () => {
                                         return (
                                             <TodosFeed
-                                                actions = { { fetchTodosAsync: actions.fetchTodosAsync } }
+                                                actions = { {
+                                                    fetchTodosAsync: actions.fetchTodosAsync,
+                                                } }
                                                 filter = 'pending'
                                                 pathname = { pathname }
                                                 title = 'Pending Todos:'
@@ -65,7 +67,9 @@ const Public = ({ todos, actions }) => {
                                     render = { () => {
                                         return (
                                             <TodosFeed
-                                                actions = { { fetchTodosAsync: actions.fetchTodosAsync } }
+                                                actions = { {
+                                                    fetchTodosAsync: actions.fetchTodosAsync,
+                                                } }
                                                 filter = 'completed'
                                                 title = 'Completed Todos:'
                                                 todos = { todos }
@@ -80,7 +84,9 @@ const Public = ({ todos, actions }) => {
                                     render = { () => {
                                         return (
                                             <TodosFeed
-                                                actions = { { fetchTodosAsync: actions.fetchTodosAsync } }
+                                                actions = { {
+                                                    fetchTodosAsync: actions.fetchTodosAsync,
+                                                } }
                                                 filter = 'removed'
                                                 title = 'Trash:'
                                                 todos = { todos }

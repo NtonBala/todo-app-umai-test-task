@@ -10,5 +10,9 @@ export const api = {
         create (todo) {
             return mockFetch('/post/todo', { todo });
         },
+
+        remove (todoId) {
+            return mockFetch('/delete/todo', { todoId });
+        },
     },
 };
